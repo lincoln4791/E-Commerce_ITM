@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="horizontalScrollView" type="id" />
+    <item name="tv_flowers" type="id" />
+    <item name="tv_vapes" type="id" />
+    <item name="tv_extracts" type="id" />
+    <item name="tv_eable" type="id" />
+    <item name="tv_accesories" type="id" />
+</resources>

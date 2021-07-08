@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".all_products.All_Products">
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_back"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/back"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/logo"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/logoonly_green"
+        app:layout_constraintStart_toEndOf="@+id/iv_back"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/textlogo"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/spliff_black"
+        app:layout_constraintStart_toEndOf="@+id/logo"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/tv_profile"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/profile"
+        app:layout_constraintBottom_toBottomOf="@+id/textlogo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/textlogo" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/shapeableImageView4"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/heart"
+        app:layout_constraintBottom_toBottomOf="@+id/tv_profile"
+        app:layout_constraintEnd_toStartOf="@+id/tv_profile"
+        app:layout_constraintTop_toTopOf="@+id/tv_profile" />
+
+
+    <EditText
+        android:id="@+id/et_Search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:background="@drawable/et_bg_white"
+        android:drawableEnd="@drawable/search"
+        android:hint="@string/search"
+        android:paddingStart="10dp"
+        android:paddingTop="15dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="15dp"
+        app:layout_constraintEnd_toEndOf="@+id/tv_profile"
+        app:layout_constraintStart_toStartOf="@+id/iv_back"
+        app:layout_constraintTop_toBottomOf="@+id/iv_back" />
+
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:scrollbars="none"
+        app:layout_constraintEnd_toEndOf="@+id/tv_profile"
+        app:layout_constraintStart_toStartOf="@+id/et_Search"
+        app:layout_constraintTop_toBottomOf="@+id/et_Search"
+        android:focusable="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_flowers"
+                style="@style/hsv_tv_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/flowers" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_vapes"
+                style="@style/hsv_tv_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/vape" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_extracts"
+                style="@style/hsv_tv_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/extracts" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_eable"
+                style="@style/hsv_tv_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/eables" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tv_accesories"
+                style="@style/hsv_tv_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/accesories" />
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycleView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

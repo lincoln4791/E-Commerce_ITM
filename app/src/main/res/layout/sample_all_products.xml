@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cv_rootLayout_sampleAllProducts"
+    app:cardElevation="16dp"
+    app:cardCornerRadius="5dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginTop="5dp"
+    android:layout_marginBottom="5dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_productImage_sampleAllProducts"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/product"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tv_brand_sampleAllProducts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="@string/pure_sun_farms"
+            android:paddingTop="5dp"
+            app:layout_constraintBottom_toTopOf="@+id/productname_sampleAllProducts"
+            app:layout_constraintEnd_toStartOf="@+id/iv_plus_sampleAllProducts"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/iv_productImage_sampleAllProducts"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/productname_sampleAllProducts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/montserrat_semibold"
+            android:text="@string/pure_sun_farms"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toTopOf="@+id/price_sampleAllProducts"
+            app:layout_constraintEnd_toEndOf="@+id/tv_brand_sampleAllProducts"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/iv_productImage_sampleAllProducts"
+            app:layout_constraintTop_toBottomOf="@+id/tv_brand_sampleAllProducts" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/price_sampleAllProducts"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="$20"
+            android:textAlignment="center"
+            android:layout_marginBottom="5dp"
+            android:textColor="@color/green"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/iv_plus_sampleAllProducts"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/iv_productImage_sampleAllProducts"
+            app:layout_constraintTop_toBottomOf="@+id/productname_sampleAllProducts" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_plus_sampleAllProducts"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:src="@drawable/plus_green"
+            app:layout_constraintBottom_toBottomOf="@+id/iv_productImage_sampleAllProducts"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/iv_productImage_sampleAllProducts" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.cardview.widget.CardView>
