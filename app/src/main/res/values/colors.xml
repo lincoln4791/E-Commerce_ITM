@@ -13,4 +13,5 @@
     <color name="grey2">#ECECEC</color>
     <color name="lightPink">#F6E6EB</color>
     <color name="light_black">#7E7E7E</color>
+    <color name="red">#F44336</color>
 </resources>

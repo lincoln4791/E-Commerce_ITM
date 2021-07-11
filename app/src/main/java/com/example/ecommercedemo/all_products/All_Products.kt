@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
@@ -13,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ecommercedemo.R
 import com.example.ecommercedemo.all_products.searchProducts.SearchProducts
-import com.example.ecommercedemo.common.Constants
 import com.example.ecommercedemo.common.SavedData
 import com.example.ecommercedemo.databinding.ActivityAllproductsBinding
 import com.example.ecommercedemo.myCart.MyCartModel
@@ -21,6 +21,9 @@ import com.example.ecommercedemo.roomDB.AppDatabase
 import io.paperdb.Paper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class All_Products : AppCompatActivity() {
@@ -34,10 +37,7 @@ class All_Products : AppCompatActivity() {
         setContentView(binding.root)
 
         hideSystemUI()
-        initRecycleView()
-
-        //loadDataFromRoomBD()
-
+        checkIfProducktsAlreadyLoaded()
 
 
         binding.etSearch.setOnClickListener {
@@ -52,6 +52,18 @@ class All_Products : AppCompatActivity() {
 
     }
 
+    private fun checkIfProducktsAlreadyLoaded() {
+        Paper.init(this@All_Products)
+        if(Paper.book().read<Boolean>("isLoaded") == true){
+            Log.d("tag","data Exists")
+            loadDataFromSQL()
+        }
+        else{
+            Log.d("tag","data Empty")
+            saveDataToLocalDatabase()
+        }
+
+    }
 
 
     private fun initRecycleView() {
@@ -60,6 +72,19 @@ class All_Products : AppCompatActivity() {
         binding.recycleView.layoutManager = LinearLayoutManager(this)
         binding.recycleView.adapter = productAdapter
         productAdapter.notifyDataSetChanged()
+    }
+    private fun loadDataFromSQL() {
+        CoroutineScope(IO).launch {
+
+            val async = async {
+                AppDatabase.getInstance(this@All_Products).productDao()!!.getAll()
+            }
+
+            list =  async.await()
+            launch (Main) {
+                initRecycleView()
+            }
+        }
     }
 
 
@@ -100,18 +125,33 @@ class All_Products : AppCompatActivity() {
                 SavedData.my_cart!!.add(myCartModel)
                 dialog.dismiss()
                 Toast.makeText(this, "Product Added To Cart", Toast.LENGTH_SHORT).show()
-                saveDataToLocalDatabase()
+                saveDataToLocalDatabase(myCartModel)
 
             }
     }
 
 
-    private fun saveDataToLocalDatabase() {
+    private fun saveDataToLocalDatabase(myCartData : MyCartModel) {
+
+
         CoroutineScope(Dispatchers.IO).launch {
-            Paper.init(this@All_Products)
-            Paper.book().write(Constants.MY_CART, SavedData.my_cart)
+
+            val async = async {
+                    AppDatabase.getInstance(this@All_Products).myCartDao()!!.loadByID(myCartData.id)
+            }
+            var existsData = async.await()
+            if(existsData.isEmpty()){
+                AppDatabase.getInstance(this@All_Products).myCartDao()!!.insertAll(myCartData)
+            }
+            else{
+                myCartData.quantity = myCartData.quantity+existsData[0].quantity
+                AppDatabase.getInstance(this@All_Products).myCartDao()!!.updateByID(myCartData.quantity,myCartData.id)
+            }
+
+
         }
     }
+
 
 
     private fun hideSystemUI() {
@@ -127,6 +167,27 @@ class All_Products : AppCompatActivity() {
             actionBar?.hide()
         }
 
+    }
+
+
+    private  fun saveDataToLocalDatabase(){
+        CoroutineScope(IO).launch {
+            val async = async {
+                var client = AppDatabase.getInstance(this@All_Products).productDao()
+                var list = ProductData.getProducts()
+                for (i in 0 until list.size) {
+                    client!!.insertAll(list[i])
+                }
+                Paper.init(this@All_Products)
+                Paper.book().write("isLoaded",true)
+            }
+
+            async.await()
+            launch(Main) {
+                loadDataFromSQL()
+            }
+
+        }
     }
 
 

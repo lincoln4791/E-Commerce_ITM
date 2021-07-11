@@ -19,11 +19,13 @@ import com.example.ecommercedemo.databinding.ActivityProductDetailsBinding
 import com.example.ecommercedemo.myCart.MyCartModel
 import com.example.ecommercedemo.produckDetails.product_slider.ProductSliderAdapter
 import com.example.ecommercedemo.produckDetails.product_slider.ProductSliderModel
+import com.example.ecommercedemo.roomDB.AppDatabase
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType
 import com.smarteist.autoimageslider.SliderAnimations
 import io.paperdb.Paper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -134,43 +136,67 @@ class ProductDetails : AppCompatActivity() {
     }
 
 
-    fun addProductToCard(productModel: ProductModel){
+    fun addProductToCard(productModel: ProductModel) {
+        var orderQuantity: Int = 1
         val dialog = Dialog(this)
         val view: View = LayoutInflater.from(this).inflate(R.layout.dialogue_add_to_cart, null)
         var tv_quantity = view.findViewById<TextView>(R.id.tv_quantity_dialogue_add_to_cart)
-        tv_quantity.text = orderCount.toString()
         dialog.setContentView(view)
         dialog.setCancelable(true)
         dialog.show()
         view.findViewById<View>(R.id.iv_plus__dialogue_add_to_cart)
             .setOnClickListener {
-                orderCount++
-                tv_quantity.text = orderCount.toString()
+                orderQuantity++
+                tv_quantity.text = orderQuantity.toString()
 
             }
 
         view.findViewById<View>(R.id.iv_minus_dialogue_add_to_cart)
             .setOnClickListener {
-                orderCount--
-                tv_quantity.text = orderCount.toString()
+                orderQuantity--
+                tv_quantity.text = orderQuantity.toString()
             }
 
         view.findViewById<View>(R.id.btn_add_dialogue_add_to_cart)
             .setOnClickListener {
-                val myCartModel : MyCartModel = MyCartModel(productModel.id,productModel.image,productModel.name,productModel.brand,
-                    productModel.price,productModel.THC,productModel.CBC,productModel.Description,orderCount)
+                val myCartModel: MyCartModel = MyCartModel(
+                    productModel.id,
+                    productModel.image,
+                    productModel.name,
+                    productModel.brand,
+                    productModel.price,
+                    productModel.THC,
+                    productModel.CBC,
+                    productModel.Description,
+                    orderQuantity
+                )
                 SavedData.my_cart!!.add(myCartModel)
                 dialog.dismiss()
-                Toast.makeText(this,"Product Added To Cart",Toast.LENGTH_SHORT).show()
-                saveDataToLocalDatabase()
+                Toast.makeText(this, "Product Added To Cart", Toast.LENGTH_SHORT).show()
+                saveDataToLocalDatabase(myCartModel)
 
             }
     }
 
-    private fun saveDataToLocalDatabase() {
+
+    private fun saveDataToLocalDatabase(myCartData : MyCartModel) {
+
+
         CoroutineScope(Dispatchers.IO).launch {
-            Paper.init(this@ProductDetails)
-            Paper.book().write(Constants.MY_CART, SavedData.my_cart)
+
+            val async = async {
+                AppDatabase.getInstance(this@ProductDetails).myCartDao()!!.loadByID(myCartData.id)
+            }
+            var existsData = async.await()
+            if(existsData.isEmpty()){
+                AppDatabase.getInstance(this@ProductDetails).myCartDao()!!.insertAll(myCartData)
+            }
+            else{
+                myCartData.quantity = myCartData.quantity+existsData[0].quantity
+                AppDatabase.getInstance(this@ProductDetails).myCartDao()!!.updateByID(myCartData.quantity,myCartData.id)
+            }
+
+
         }
     }
 

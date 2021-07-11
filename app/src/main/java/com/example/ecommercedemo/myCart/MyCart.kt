@@ -3,6 +3,7 @@ package com.example.ecommercedemo.myCart
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,27 +13,34 @@ import com.example.ecommercedemo.all_products.ProductData
 import com.example.ecommercedemo.all_products.ProductModel
 import com.example.ecommercedemo.common.Constants
 import com.example.ecommercedemo.databinding.ActivityMyCartBinding
+import com.example.ecommercedemo.roomDB.AppDatabase
 import io.paperdb.Paper
+import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.Dispatchers.Main
 
 class MyCart : AppCompatActivity() {
-    lateinit var productAdapter : AdapterMyCart
-    lateinit var list : MutableList<MyCartModel>
+    lateinit var productAdapter: AdapterMyCart
+    var list: MutableList<MyCartModel>? = null
 
-    lateinit var binding : ActivityMyCartBinding
+    lateinit var binding: ActivityMyCartBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMyCartBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         hideSystemUI()
-        initRecycleView()
-        setTotalCost()
+        fetchData()
+        //setTotalCost()
 
 
         binding.ivBack.setOnClickListener {
             onBackPressed()
         }
 
+        binding.tvClearCart.setOnClickListener{
+           clearMyCart()
+        }
 
 
     }
@@ -56,19 +64,65 @@ class MyCart : AppCompatActivity() {
 
     private fun setTotalCost() {
         var totalCost = 0
-        for(i in 0 until list.size){
-            totalCost += (list[i].price * list[i].quantity)
+        for (i in 0 until list!!.size) {
+            totalCost += (list!![i].price * list!![i].quantity)
         }
 
-        binding.totalPriceValue.text = "$"+totalCost.toString()
+        binding.totalPriceValue.text = "$" + totalCost.toString()
+    }
+
+
+    private fun fetchData() {
+        CoroutineScope(IO).launch {
+            val async: Deferred<MutableList<MyCartModel>> = async {
+                AppDatabase.getInstance(this@MyCart).myCartDao()!!.getAll()
+
+            }
+
+            list = async.await()
+
+            launch(Dispatchers.Main) {
+                initRecycleView()
+                setTotalCost()
+            }
+
+
+
+        }
+
     }
 
     private fun initRecycleView() {
-        Paper.init(this@MyCart)
-        list = Paper.book().read(Constants.MY_CART)
-        productAdapter = AdapterMyCart(this@MyCart,list)
+        //Paper.init(this@MyCart)
+        productAdapter = AdapterMyCart(this@MyCart, list!!)
         binding.recycleView.layoutManager = LinearLayoutManager(this)
         binding.recycleView.adapter = productAdapter
         productAdapter.notifyDataSetChanged()
     }
+
+
+    private suspend fun setDataInMainThread() {
+        withContext(Main) {
+            Log.d("tag", "data is : $list")
+        }
+    }
+
+
+
+    private fun clearMyCart(){
+        CoroutineScope(IO).launch {
+            val launch = async {
+                AppDatabase.getInstance(this@MyCart).myCartDao()!!.deleteAll()
+            }
+
+            launch.await()
+            launch(Dispatchers.Main) {
+                fetchData()
+            }
+
+        }
+
+
+    }
+
 }

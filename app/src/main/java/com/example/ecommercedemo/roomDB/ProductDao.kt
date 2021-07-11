@@ -21,4 +21,7 @@ interface ProductDao {
 
     @Delete
     fun delete(user: ProductModel)
+
+    @Query("delete  FROM productmodel where id = :id ")
+    fun deleteByID( id : Int)
 }
