@@ -4,13 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:cardElevation="16dp"
     app:cardCornerRadius="5dp"
-    android:layout_margin="5dp"
+    android:layout_marginStart="5dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toTopOf="parent">
@@ -100,6 +100,20 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/iv_plus_sampleAllProducts"
             app:layout_constraintStart_toEndOf="@+id/tv_brand_sampleMyCart" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glv1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".05" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/glv2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent=".95" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

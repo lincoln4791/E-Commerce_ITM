@@ -8,10 +8,13 @@ import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.ecommercedemo.R
 import com.example.ecommercedemo.all_products.All_Products
-import com.example.ecommercedemo.all_products.ProductData
 import com.example.ecommercedemo.all_products.searchProducts.SearchProducts
 import com.example.ecommercedemo.common.Constants
 import com.example.ecommercedemo.common.SavedData
@@ -20,16 +23,11 @@ import com.example.ecommercedemo.login.Login
 import com.example.ecommercedemo.myCart.MyCart
 import com.example.ecommercedemo.myCart.MyCartModel
 import com.google.android.material.navigation.NavigationView
-import com.example.ecommercedemo.networkUtil.RetrofitBaseClient
-import com.example.ecommercedemo.roomDB.AppDatabase
+import com.example.ecommercedemo.worker.LogoutWorker
 import io.paperdb.Paper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class HomePage : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
         lateinit var binding: ActivityHomePageBinding
@@ -133,6 +131,25 @@ class HomePage : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLis
 
 
     private fun logout() {
+
+        var logoutWorkRequest = OneTimeWorkRequestBuilder<LogoutWorker>().build()
+
+        WorkManager.getInstance(this@HomePage).enqueue(logoutWorkRequest)
+
+        WorkManager.getInstance(this@HomePage).getWorkInfoByIdLiveData(logoutWorkRequest.id).observe(this@HomePage,
+            Observer {
+                if(it.state.isFinished){
+                    if(SavedData.RESPONSE_LOGOUT!!.code() == 200){
+                        Log.d("tag", "Logout Success ${SavedData.RESPONSE_LOGOUT!!.code()}")
+                        startActivity(Intent(this@HomePage, Login::class.java)).apply { }
+                    }
+                    else{
+                        Toast.makeText(this@HomePage,"Logout Failed, try again later",Toast.LENGTH_LONG).show()
+                    }
+                }
+            })
+
+    /*
         RetrofitBaseClient.getRetrofitBaseClient().logout(SavedData.id)
             .enqueue(object : Callback<Void> {
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -148,7 +165,7 @@ class HomePage : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLis
                     Log.d("tag", "Logout Failed2 ${t.message}")
                 }
 
-            })
+            })*/
     }
 
 

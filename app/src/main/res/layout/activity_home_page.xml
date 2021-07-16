@@ -12,65 +12,75 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/menu"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/menu"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/topBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/logo"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginStart="20dp"
-            android:src="@drawable/logoonly_green"
-            app:layout_constraintStart_toEndOf="@+id/menu"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/menu"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/menu"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/textlogo"
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_marginTop="20dp"
-            android:src="@drawable/spliff_black"
-            app:layout_constraintStart_toEndOf="@+id/logo"
-            app:layout_constraintTop_toTopOf="parent" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/logo"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/logoonly_green"
+                app:layout_constraintStart_toEndOf="@+id/menu"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/tv_profile"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/profile"
-            app:layout_constraintBottom_toBottomOf="@+id/textlogo"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textlogo" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/textlogo"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/spliff_black"
+                app:layout_constraintStart_toEndOf="@+id/logo"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/shapeableImageView4"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/heart"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_profile"
-            app:layout_constraintEnd_toStartOf="@+id/tv_profile"
-            app:layout_constraintTop_toTopOf="@+id/tv_profile" />
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/tv_profile"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/profile"
+                app:layout_constraintBottom_toBottomOf="@+id/textlogo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textlogo" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/shapeableImageView4"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/heart"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_profile"
+                app:layout_constraintEnd_toStartOf="@+id/tv_profile"
+                app:layout_constraintTop_toTopOf="@+id/tv_profile" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/iv_search"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="20dp"
+                android:src="@drawable/search"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_profile"
+                app:layout_constraintEnd_toStartOf="@+id/shapeableImageView4"
+                app:layout_constraintTop_toTopOf="@+id/tv_profile" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_search"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginEnd="20dp"
-            android:src="@drawable/search"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_profile"
-            app:layout_constraintEnd_toStartOf="@+id/shapeableImageView4"
-            app:layout_constraintTop_toTopOf="@+id/tv_profile" />
 
 
         <com.google.android.material.imageview.ShapeableImageView
@@ -81,9 +91,9 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             app:layout_constraintBottom_toTopOf="@+id/materialTextView10"
-            app:layout_constraintEnd_toEndOf="@+id/tv_profile"
-            app:layout_constraintStart_toStartOf="@+id/menu"
-            app:layout_constraintTop_toBottomOf="@+id/menu" />
+            app:layout_constraintEnd_toEndOf="@+id/topBar"
+            app:layout_constraintStart_toStartOf="@+id/topBar"
+            app:layout_constraintTop_toBottomOf="@+id/topBar" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -119,8 +129,8 @@
             android:orientation="horizontal"
             android:weightSum="3"
             app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
-            app:layout_constraintEnd_toEndOf="@+id/tv_profile"
-            app:layout_constraintStart_toStartOf="@+id/menu">
+            app:layout_constraintEnd_toEndOf="@+id/topBar"
+            app:layout_constraintStart_toStartOf="@+id/topBar">
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cv_vapes"

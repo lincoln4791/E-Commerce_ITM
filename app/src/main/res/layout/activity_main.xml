@@ -75,9 +75,9 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/white"
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
-            android:backgroundTint="@color/white"
             android:text="@string/join"
             android:textColor="@color/green"
             android:textSize="16sp"
@@ -93,20 +93,27 @@
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_margin="10dp"
+            android:backgroundTint="@color/transparent"
             android:paddingStart="40dp"
             android:paddingEnd="40dp"
-            android:backgroundTint="@color/transparent"
             android:text="@string/log_in"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@+id/join"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/join"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/join"
             app:strokeColor="@color/white"
             app:strokeWidth="2dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent=".8" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

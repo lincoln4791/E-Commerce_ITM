@@ -11,13 +11,18 @@ import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
 import com.example.ecommercedemo.R
 import com.example.ecommercedemo.all_products.searchProducts.SearchProducts
 import com.example.ecommercedemo.common.SavedData
 import com.example.ecommercedemo.databinding.ActivityAllproductsBinding
 import com.example.ecommercedemo.myCart.MyCartModel
 import com.example.ecommercedemo.roomDB.AppDatabase
+import com.example.ecommercedemo.worker.AddToMyCartWorker
 import io.paperdb.Paper
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -25,6 +30,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.util.*
+import kotlin.collections.MutableMap as MutableMap1
 
 class All_Products : AppCompatActivity() {
     lateinit var productAdapter: AdapterAllProducts
@@ -132,7 +139,6 @@ class All_Products : AppCompatActivity() {
 
 
     private fun saveDataToLocalDatabase(myCartData : MyCartModel) {
-
 
         CoroutineScope(Dispatchers.IO).launch {
 
