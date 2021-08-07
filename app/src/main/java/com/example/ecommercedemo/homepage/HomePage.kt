@@ -41,6 +41,10 @@ class HomePage : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLis
         hideSystemUI()
         loadMyCartDataFromSQL()
 
+        Log.d("tag","test")
+
+
+
 
 
         //sqliteHelper = SQLiteHelper(this)
