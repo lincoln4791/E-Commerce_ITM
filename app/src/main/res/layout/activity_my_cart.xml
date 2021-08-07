@@ -85,4 +85,23 @@
         app:layout_constraintTop_toTopOf="@+id/total" />
 
 
+    <Button
+        android:id="@+id/btn_import"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="imp"
+        app:layout_constraintBottom_toBottomOf="@+id/totalPriceValue"
+        app:layout_constraintStart_toEndOf="@+id/totalPriceValue"
+        app:layout_constraintTop_toTopOf="@+id/totalPriceValue" />
+
+    <Button
+        android:id="@+id/btn_exp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="exp"
+        app:layout_constraintBottom_toBottomOf="@+id/totalPriceValue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/totalPriceValue" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

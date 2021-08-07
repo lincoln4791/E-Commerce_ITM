@@ -122,7 +122,6 @@ class HomePage : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLis
         if (item.itemId == R.id.menu_logout) {
             Log.d("tag", "Logout")
             logout()
-
         }
 
         binding.drawerLayout.closeDrawer(GravityCompat.START)

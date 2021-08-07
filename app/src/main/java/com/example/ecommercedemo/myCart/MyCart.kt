@@ -1,25 +1,32 @@
 package com.example.ecommercedemo.myCart
 
+import android.Manifest
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Environment
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.ecommercedemo.R
-import com.example.ecommercedemo.all_products.AdapterAllProducts
-import com.example.ecommercedemo.all_products.ProductData
-import com.example.ecommercedemo.all_products.ProductModel
-import com.example.ecommercedemo.common.Constants
 import com.example.ecommercedemo.databinding.ActivityMyCartBinding
 import com.example.ecommercedemo.roomDB.AppDatabase
-import io.paperdb.Paper
+import com.karumi.dexter.Dexter
+import com.karumi.dexter.PermissionToken
+import com.karumi.dexter.listener.PermissionDeniedResponse
+import com.karumi.dexter.listener.PermissionGrantedResponse
+import com.karumi.dexter.listener.PermissionRequest
+import com.karumi.dexter.listener.single.PermissionListener
 import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
+import java.io.*
 
 class MyCart : AppCompatActivity() {
+    val importFlag = 1
+    val exportFlag = 2
+
     lateinit var productAdapter: AdapterMyCart
     var list: MutableList<MyCartModel>? = null
 
@@ -43,7 +50,91 @@ class MyCart : AppCompatActivity() {
         }
 
 
+        binding.btnExp.setOnClickListener {
+            chectWritePermission(exportFlag)
+
+        }
+
+
+        binding.btnImport.setOnClickListener {
+            chectWritePermission(importFlag)
+        }
+
+
     }
+
+    private fun chectWritePermission(flag : Int) {
+        Dexter.withContext(this@MyCart).withPermission(Manifest.permission
+            .WRITE_EXTERNAL_STORAGE).withListener(object : PermissionListener{
+            override fun onPermissionGranted(p0: PermissionGrantedResponse?) {
+                if(flag == importFlag){
+                    importDB()
+                }
+                else if(flag == exportFlag){
+                    exportDB()
+                }
+            }
+
+            override fun onPermissionDenied(p0: PermissionDeniedResponse?) {
+                Toast.makeText(this@MyCart,"Permission Denied",Toast.LENGTH_LONG).show()
+            }
+
+            override fun onPermissionRationaleShouldBeShown(
+                p0: PermissionRequest?,
+                p1: PermissionToken?,
+            ) {
+                p1!!.continuePermissionRequest()
+            }
+
+        }).onSameThread().check()
+    }
+
+    private fun importDB() {
+        var databaseName = "roomdbb"
+        var inFileName = "mydb.txt"
+        var folderName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        var inFile = File(folderName,inFileName)
+        var outFilePath = this@MyCart.getDatabasePath(databaseName).toString()
+        var fos = FileOutputStream(outFilePath)
+        var fis: FileInputStream = FileInputStream(inFile)
+        var bufferReader : BufferedReader = BufferedReader(InputStreamReader(fis))
+
+        var lines = bufferReader.readLines()
+
+        for (line in lines){
+            fos.write(line.toByteArray())
+        }
+
+        fos.close()
+        fis.close()
+        Toast.makeText(this@MyCart,"Success Import",Toast.LENGTH_LONG).show()
+    }
+
+
+    private fun exportDB() {
+
+        var databaseName = "roomdbb"
+        var outFileName = "mydb.txt"
+        var folderName = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+        var outFile = File(folderName,outFileName)
+        var fos = FileOutputStream(outFile)
+        var inFileName = this@MyCart.getDatabasePath(databaseName).toString()
+        var fis: FileInputStream = FileInputStream(inFileName)
+        var bufferReader : BufferedReader = BufferedReader(InputStreamReader(fis))
+
+        var lines = bufferReader.readLines()
+
+        for (line in lines){
+            fos.write(line.toByteArray())
+        }
+
+        fos.close()
+        fis.close()
+        Toast.makeText(this@MyCart,"Success",Toast.LENGTH_LONG).show()
+    }
+
+
+
 
 
     private fun hideSystemUI() {

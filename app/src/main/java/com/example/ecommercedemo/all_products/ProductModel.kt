@@ -14,4 +14,18 @@ class ProductModel(@PrimaryKey() var id:Int,
                    @ColumnInfo(name = "THC") var THC : String,
                    @ColumnInfo(name = "CBC") var CBC : String,
                    @ColumnInfo(name = "Description") var Description :String ) :Serializable {
+
+/*    var id : Int? = null
+    var image : String? = null
+    var name : String? = null
+    var brand : String? = null
+    var price : Int? = null
+    var THC : String? = null
+    var CBC : String? = null
+    var Description : String? = null
+
+    constructor(id: Int) : this() {
+        this.id = id
+    }*/
+
 }
