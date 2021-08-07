@@ -40,6 +40,8 @@ class HomePage : AppCompatActivity(), NavigationView.OnNavigationItemSelectedLis
         //******************************************* Inits*******************************
         hideSystemUI()
         loadMyCartDataFromSQL()
+        print("this is test push")
+        print("this is test push2")
 
 
 
